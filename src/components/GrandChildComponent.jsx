@@ -1,10 +1,11 @@
 import React from 'react'
 
-function GrandChildComponent() {
+function GrandChildComponent({ message , coins}) {
   return (
     <div>
       <h3> Grand Child Component</h3>
-      <p>Message from Child Component: { }</p>
+      <p>Message from Child Component: { message }</p>
+      <p>Remaining coins: { coins}</p>
       <hr></hr>
     </div>
   )

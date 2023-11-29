@@ -1,12 +1,13 @@
 import React from 'react'
+import GrandChildComponent from './GrandChildComponent';
 
-function ChildComponent() {
+function ChildComponent( { message , coins}) {
   return (
     <div>
        <h2>Child Component</h2>
-       <p>Message from Parent: { } </p>
+       <p>Message from Parent: { message } </p>
        <hr></hr>
-       <GrandChildComponent />
+       <GrandChildComponent message={ message } coins= {coins} />
     </div>
   )
 }
