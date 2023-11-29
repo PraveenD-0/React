@@ -1,6 +1,9 @@
- import React, { useState } from 'react'
+ import React, { createContext, useState } from 'react'
  import ChildComponent from './components/ChildComponent';
  import GrandChildComponent from './components/GrandChildComponent';
+  
+
+ const MessageContext =createContext();
  function App() {
    
   const [message, setMessage] =  useState('Hello, Grand Child!');
@@ -8,11 +11,14 @@
    return (
      <div>
        <h1>Parent Component</h1>
-       <ChildComponent message ={ message } coins={coins}/>
+       <hr></hr>
+       <MessageContext.Provider   value={{message,coins}}>
+        <ChildComponent />
+       </MessageContext.Provider>
        
      </div>
    )
  }
  
- export default App;
+ export { App as default, MessageContext};
  

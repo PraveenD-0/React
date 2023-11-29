@@ -1,7 +1,9 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import GrandChildComponent from './GrandChildComponent';
+import { MessageContext } from '../App';
 
-function ChildComponent( { message , coins}) {
+function ChildComponent( ) {
+  const { message, coins} = useContext(MessageContext);
   return (
     <div>
        <h2>Child Component</h2>
