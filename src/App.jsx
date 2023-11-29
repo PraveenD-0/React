@@ -1,38 +1,32 @@
-import React, { useState } from 'react'
+import React from 'react';
+import { Link, Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import Home from './components/Home';
 import Notes from './components/Notes';
+import Users from './components/Users';
+import Note from './components/Note';
 
-function App() {
-  const [page, setPage] = useState('home');
+function App({notes}) {
 
-  const toPage = (page) => (event) => {
-    event.preventDefault();
-    setPage(page);
-  }
-
-  const content = () => {
-    if (page === 'home') {
-      return <Home />
-    } else if (page === 'notes') {
-      return <Notes />
-    } else if (page === 'users') {
-      return <Users />
-    }
-  }
   const padding = {
     padding: 5,
   }
+
   return (
-    <div>
-       <div>
-        <a href='' style={padding} onClick={toPage('home')}>home</a>
-        <a href='' style={padding} onClick={toPage('notes')}>notes</a>
-        <a href='' style={padding} onClick={toPage('users')}>users</a>
-       </div>
-       {/* render the content of the component for the current set page*/}
-       { content ()}
-    </div>
+    <Router>
+      <div>
+        <Link to='/' style={padding}>home</Link>
+        <Link to='/notes' style={padding}>notes</Link>
+        <Link to='/users' style={padding}>users</Link>
+      </div>
+
+      <Routes>
+        <Route path='/' element={<Home />} />
+        <Route path='/notes' element={<Notes notes={ notes } />} />
+        <Route path='/users' element={<Users />} />
+        <Route path='/notes/:noteid' element={<Note notes={ notes } /> } />
+      </Routes>
+    </Router>
   )
 }
 
-export default App
+export default App;

@@ -1,12 +1,11 @@
- import React from 'react'
- 
- function Users() {
-   return (
-     <div>
-       <P>Users</P>
-     </div>
-   )
- }
- 
- export default Users;
- 
+import React from 'react';
+
+function Users() {
+  return (
+      <div>
+          <p>Users</p>
+    </div>
+  )
+}
+
+export default Users;
