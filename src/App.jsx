@@ -1,24 +1,18 @@
- import React, { createContext, useState } from 'react'
- import ChildComponent from './components/ChildComponent';
- import GrandChildComponent from './components/GrandChildComponent';
-  
+import React, { createContext, useState } from 'react';
+import Profile from './components/Profile';
 
- const MessageContext =createContext();
+ 
+const ProfileContext = createContext();
+
  function App() {
-   
-  const [message, setMessage] =  useState('Hello, Grand Child!');
-  const [coins, setCoins] = useState([1,2,3,4,5,6])
-   return (
-     <div>
-       <h1>Parent Component</h1>
-       <hr></hr>
-       <MessageContext.Provider   value={{message,coins}}>
-        <ChildComponent />
-       </MessageContext.Provider>
-       
-     </div>
-   )
- }
- 
- export { App as default, MessageContext};
- 
+    const [profileName, setProfileName] = useState('');
+  return (
+      <div>
+           <ProfileContext.Provider value={{ profileName, setProfileName }}>
+              <Profile />
+          </ProfileContext.Provider>
+    </div>
+  )
+}
+
+export {App as default, ProfileContext};
