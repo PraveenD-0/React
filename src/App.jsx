@@ -1,18 +1,27 @@
-import React, { createContext, useState } from 'react';
-import Profile from './components/Profile';
 
+ import React, { useRef } from 'react';
  
-const ProfileContext = createContext();
-
  function App() {
-    const [profileName, setProfileName] = useState('');
-  return (
-      <div>
-           <ProfileContext.Provider value={{ profileName, setProfileName }}>
-              <Profile />
-          </ProfileContext.Provider>
-    </div>
-  )
-}
+  
 
-export {App as default, ProfileContext};
+   const inputRef = useRef(null);
+   const handleButtonClick = () => {
+    // console.log(inputRef.current.value);
+    // inputRef.current.value='praveen';
+    inputRef.current.focus();
+   }
+   return (
+     <div>
+       <input
+       type='text'
+       placeholder='type a note...'
+       ref={inputRef}
+
+      />
+      <button onClick={handleButtonClick}>Focus Input</button>
+     </div>
+   )
+ }
+ 
+ export default App;
+ 
