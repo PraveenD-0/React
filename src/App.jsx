@@ -6,7 +6,7 @@ function App(props) {
   const [showStatus, setShowStatus] = useState('all');
   const [notes, setNotes] = useState(props.notes);
   const [newNoteContent, setNewNoteContent] = useState('');
-  const [newNoteImportant, setNewNoteImportant] = useState('');
+  const [newNoteImportant, setNewNoteImportant] = useState('true');
   const newNoteContentRef = useRef(null);
 
   const addNote = (event) => {
@@ -15,7 +15,7 @@ function App(props) {
     let noteObject = {
       id: notes.length + 1,
       content: newNoteContent,
-      important: newNoteImportant === 'true',
+      important: newNoteImportant == 'true',
     }
 
     setNotes(notes.concat(noteObject));
@@ -100,8 +100,8 @@ function App(props) {
             value={newNoteImportant}
           >
             <option disabled>--select--</option>
-            <option>true</option>
-            <option>false</option>
+            <option value='true'>true</option>
+            <option value='false'>false</option>
           </select>
         </label>
         <br /><br />
