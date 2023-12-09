@@ -1,5 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
+import Dashboard from './components/Dashboard';
+import ReadNotes from './components/ReadNotes';
+import CreateNote from './components/CreateNote';
 
  
 function App() {
@@ -18,6 +21,9 @@ function App() {
       console.log('Failed to fetch notes:', error);
     }
   } 
+  useEffect(() => {
+    newNoteContentRef.current.focus();
+  }, []);
 
   useEffect(() => {
     fetchNotes();
@@ -28,7 +34,7 @@ function App() {
     let noteObject = {
       id: notes.length + 1,
       content: newNoteContent,
-      important: newNoteImportant == 'true',
+      important: newNoteImportant === 'true',
     }
 
     // setNotes(notes.concat(noteObject));
@@ -50,81 +56,20 @@ function App() {
     setShowStatus(event.target.value);
   }
 
-  const filterNotes =(notes, showStatus) => {
-    switch (showStatus){
-      case 'all':
-        return notes;
-      case 'imp':
-        return notes.filter(note => note.important == true)
-    }
-  }
-  const notesFiltered = filterNotes(notes, showStatus);
-
   return (
     <div>
-      <h1>Notes</h1>
-      <label>
-        <input 
-          type='radio'
-          name='filter'
-          value='all'
-          onChange={handleStatusChange}
-          checked={showStatus === 'all'}
-        />
-        All Notes
-      </label>
-      <label>
-        <input 
-          type='radio'
-          name='filter'
-          value='imp'
-          onChange={handleStatusChange}
-        />
-        Important Notes
-      </label><label>
-        <input 
-          type='radio'
-          name='filter'
-          value='nonimp'
-          onChange={handleStatusChange}
-        />
-        Important notes
-      </label>
-
-      <ul>
-        {
-          notes.map(note => 
-            <li key={note.id}>{ note.content }</li>
-          )
-        }
-      </ul>
+      <ReadNotes showStatus={ showStatus } 
+        handleStatusChange={ handleStatusChange }
+        notes={ notes }
+      />
       <hr></hr>
-      <h2>Add a New Note</h2>
-      <form onSubmit={addNote}>
-        <label>
-          Content: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <input 
-            type='text'
-            ref={newNoteContentRef}
-            value={newNoteContent}
-            onChange={e => setNewNoteContent(e.target.value)}
-          />
-        </label>
-        <br /><br />
-        <label>
-          Is important: &nbsp;&nbsp;
-          <select
-            onChange={e => setNewNoteImportant(e.target.value)}
-            value={newNoteImportant}
-          >
-            <option disabled>--select--</option>
-            <option>true</option>
-            <option>false</option>
-          </select>
-        </label>
-        <br /><br />
-        <button type='submit'>Add New Note</button>
-      </form>
+      <CreateNote addNote={addNote} 
+        newNoteContent={newNoteContent}
+        newNoteImportant={newNoteImportant}
+        newNoteContentRef= {newNoteContentRef}
+        setNewNoteContent={setNewNoteContent}
+        setNewNoteImportant={setNewNoteImportant}
+      />
     </div>
   )
 }
