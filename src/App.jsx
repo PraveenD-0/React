@@ -1,14 +1,27 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import axios from 'axios';
 
  
-function App(props) {
+function App() {
 
   const [showStatus, setShowStatus] = useState('all');
-  const [notes, setNotes] = useState(props.notes);
+  const [notes, setNotes] = useState([]);
   const [newNoteContent, setNewNoteContent] = useState('');
   const [newNoteImportant, setNewNoteImportant] = useState('true');
   const newNoteContentRef = useRef(null);
+  
+  const fetchNotes = async () => {
+    try {
+      const response = await axios.get('http://localhost:3000/notes');
+      setNotes(response.data);
+    } catch (error) {
+      console.log('Failed to fetch notes:', error);
+    }
+  } 
 
+  useEffect(() => {
+    fetchNotes();
+  }, []); 
   const addNote = (event) => {
     event.preventDefault();
     
@@ -18,13 +31,20 @@ function App(props) {
       important: newNoteImportant == 'true',
     }
 
-    setNotes(notes.concat(noteObject));
+    // setNotes(notes.concat(noteObject));
 
+    console.log('adding a new note...');
+    axios.post('http://localhost:3000/notes',
+     noteObject)
+     .then(response => {
+      console.log('note added successfully...')
+     })
   
     setNewNoteContent('');
     setNewNoteImportant('');
 
     newNoteContentRef.current.focus();
+    fetchNotes();
   }
   const handleStatusChange = (event) => {
     setShowStatus(event.target.value);
@@ -35,9 +55,7 @@ function App(props) {
       case 'all':
         return notes;
       case 'imp':
-        return notes.filter(note => note.important === true);
-        case 'nonimp':
-          return notes.filter(note => note.important === false);
+        return notes.filter(note => note.important == true)
     }
   }
   const notesFiltered = filterNotes(notes, showStatus);
@@ -70,12 +88,12 @@ function App(props) {
           value='nonimp'
           onChange={handleStatusChange}
         />
-        Non-Important notes
+        Important notes
       </label>
 
       <ul>
         {
-          notesFiltered.map(note => 
+          notes.map(note => 
             <li key={note.id}>{ note.content }</li>
           )
         }
@@ -100,8 +118,8 @@ function App(props) {
             value={newNoteImportant}
           >
             <option disabled>--select--</option>
-            <option value='true'>true</option>
-            <option value='false'>false</option>
+            <option>true</option>
+            <option>false</option>
           </select>
         </label>
         <br /><br />
