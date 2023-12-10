@@ -39,6 +39,11 @@
       "id": 8,
       "content": "A Testing new note",
       "important": true
+    },
+    {
+      "id": 9,
+      "content": "Notes app using React",
+      "important": true
     }
   ]
 }
