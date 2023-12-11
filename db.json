@@ -2,48 +2,53 @@
   "notes": [
     {
       "id": 1,
-      "content": "Javascript is awesome!",
+      "content": "React.js is a component-based library",
       "important": true
     },
     {
       "id": 2,
-      "content": "The Browswer can only execute Javascript",
-      "important": false
+      "content": "React.js uses a virtual DOM",
+      "important": true
     },
     {
       "id": 3,
-      "content": "GET and POST are the most important methods of HTTP protocol",
+      "content": "React.js is easy to learn",
       "important": false
     },
     {
       "id": 4,
-      "content": "JSAON server acts like a mock server without a real backend server to serve API endpoints",
-      "important": false
+      "content": " React.js is often used with other libraries and frameworks",
+      "important": true
     },
     {
       "id": 5,
-      "content": "CRUD with React with routers, useState, useReducers, useContext, useRef hooks axios",
+      "content": "React.js is not a full-fledged framework",
       "important": false
     },
     {
       "id": 6,
-      "content": "Conditional rendering with Arraylists",
+      "content": "React.js uses JSX",
       "important": true
     },
     {
       "id": 7,
-      "content": "axios for api calls",
-      "important": true
+      "content": "React.js emphasizes a unidirectional data flow",
+      "important": false
     },
     {
       "id": 8,
-      "content": "A Testing new note",
+      "content": "React.js supports server-side rendering",
       "important": true
     },
     {
       "id": 9,
-      "content": "Notes app using the React",
-      "important": false
+      "content": "React.js has a large and active community",
+      "important": true
+    },
+    {
+      "id": 10,
+      "content": "React.js is continuously evolving",
+      "important": true
     }
   ]
 }

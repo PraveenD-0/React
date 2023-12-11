@@ -1,83 +1,65 @@
-import axios from 'axios';
-import React, { useEffect, useRef, useState } from 'react';
-import ReadNotes from './components/ReadNotes';
-import CreateNote from './components/CreateNote';
-import { Link, Route, BrowserRouter as Router, Routes } from 'react-router-dom';
-import Dashboard from './components/Dashboard';
-import EditNote from './components/EditNote';
-import DeleteNote from './components/DeleteNote'; 
+import React from 'react';
+import {  ErrorMessage,Form, Formik, Field} from 'formik';
+import './styles/App.css'
 
-function App() {
-  const [notes, setNotes] = useState([]);
-  const [showStatus, setShowStatus] = useState('all');
-  const [newNoteContent, setNewNoteContent] = useState('');
-  const [newNoteImportant, setNewNoteImportant] = useState('true');
-  const newNoteContentRef = useRef(null);
 
-  const fetchNotes = async () => {
-    try {
-      const response = await axios.get('http://localhost:3000/notes/');
-      // console.log(response.data);
-      setNotes(response.data);
-    } catch (error) {
-      console.log('Failed to fetch notes:', error);
-    }
-  } 
-
-  useEffect(() => {
-    fetchNotes();
-  }, []); 
-
-  const addNote = (event) => {
-    event.preventDefault();
-
-    let noteObject = {
-      id: notes.length + 1,
-      content: newNoteContent,
-      important: newNoteImportant == 'true',
-    }
-
-    console.log('adding a new note...');
-    axios
-      .post('http://localhost:3000/notes/', noteObject)
-      .then(response => {
-        console.log('note added successfully...');
-      })
-
-    setNewNoteContent('');
-    setNewNoteImportant('');
-
-    newNoteContentRef.current.focus();
-
-    fetchNotes();
-  }
-
-  const handleStatusChange = (event) => {
-    setShowStatus(event.target.value);
-  }
-
-  const padding = {
-    paddingRight: 15,
-  }
-
+function ContactForm() {
   return (
-    <Router>
+   <Formik 
+   initialValues={{ name: '', email: '', message: ''}}
+
+   validate={(values) => {
+    const errors = {};
+
+     if (!values.name) {
+      errors.name = 'Name is required';
+     }
+
+
+     if (values.email == '') {
+      errors.email = 'Email is requied';
+     } else if (!/^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$/i.test.test(values.email)){
+      errors.email = 'Invalid email address';
+     } 
+
+     return errors;
+
+   }}
+
+   onSubmit={(values) => {
+    console.log(values);
+   }}
+
+   >
+     <Form>
       <div>
-        <Link to="/" style={padding}>Dashboard</Link>
-        <Link to="/read" style={padding}>Read Notes</Link>
-        <Link to="/create" style={padding}>Create Note</Link>
-        <Link to='/update' style={padding}>update Note</Link>
-        <Link to='/delete' style={padding}>Delete Note</Link>
+        <label htmlFor='name'>Name:</label>
+        <Field type='text' name='name' />
+        <ErrorMessage name='name'  component='div' className='error' />
       </div>
 
-      <Routes>
-        <Route path='/' element={<Dashboard />} />
-        <Route path='/read' element={<ReadNotes showStatus={showStatus} handleStatusChange={handleStatusChange} notes={notes} />} />
-        <Route path='/create' element={<CreateNote addNote={addNote} newNoteContent={newNoteContent} newNoteImportant={newNoteImportant} newNoteContentRef={newNoteContentRef} setNewNoteContent={setNewNoteContent} setNewNoteImportant={ setNewNoteImportant} />} />
-        <Route path='/update' element={ <EditNote notes={notes} setNotes={ setNotes } fetchNotes={fetchNotes} />} /> 
-        <Route path='/delete' element={ <DeleteNote notes={notes} setNotes={setNotes} /> } />
-      </Routes>
-    </Router>
+      <div>
+      <label htmlFor='email'>Email:</label>
+        <Field type='email' name='email' />
+        <ErrorMessage name='email' component='div' className='error' />
+      </div>
+      <div>
+      <label htmlFor='message'>Message:</label>
+        <Field as='textarea' name='message' />
+        <ErrorMessage name='message' component='div' className='error' />
+      </div>
+
+      <button type='submit'>Submit</button>
+     </Form>
+   </Formik>
+  )
+}
+function App() {
+  return (
+    <div>
+    <ContactForm />
+  </div>
+
   )
 }
 
