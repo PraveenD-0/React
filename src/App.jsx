@@ -1,52 +1,40 @@
-import { faToggleOff, faToggleOn } from '@fortawesome/free-solid-svg-icons';
+
+import { faThumbsDown, faThumbsUp } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { useReducer } from 'react';
-
-const initialState = {
-  isOn: false,
-  isDisabled: false
-}
-
-const reducer = (state, action) => {
-  switch (action.type) {
-    case 'TOGGLE':
-      return {
-        isOn: !state.isOn
-      }
-    case 'DISABLE':
-      return {
-        isDisabled: !state.isDisabled
-      }
-    default:
-      return state;
-  }
-}
+import React, { useState } from 'react';
 
 function App() {
 
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [value, setValue] = useState({
+    likes: 0,
+    dislikes: 0
+  });
 
-  const toggleSwitch = () => {
-    if (!state.isDisabled) {
-      dispatch({type: 'TOGGLE'});
-    }
+  const handleLikeButton = () => {
+    setValue({
+      ...value,
+      likes: value.likes + 1,
+    });
   }
 
-  const toggleDisable = () => {
-    dispatch({type: 'DISABLE'});
+  const handleDislikeButton = () => {
+    setValue({
+      ...value,
+      dislikes: value.dislikes + 1,
+    });
   }
 
   return (
     <div>
-      <div
-        onClick={toggleSwitch}
-      >
-        <FontAwesomeIcon icon={state.isOn ? faToggleOn : faToggleOff} size='2xl'/>
+      <div>
+        <button onClick={handleLikeButton}>{<FontAwesomeIcon icon={faThumbsUp} size='2xl'/>}</button>
+        &nbsp;&nbsp;&nbsp;<span>{ value.likes }</span>
       </div>
-
-      <button onClick={toggleDisable}>
-        { state.isDisabled ? 'Enable' : 'Disable' }
-      </button>
+      <p></p>
+      <div>
+        <button onClick={handleDislikeButton}>{<FontAwesomeIcon icon={faThumbsDown} size='2xl'/>}</button>
+        &nbsp;&nbsp;&nbsp;<span>{ value.dislikes }</span>
+      </div>
     </div>
   )
 }
