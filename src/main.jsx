@@ -1,42 +1,51 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './App.jsx';
+// import App from './App.jsx';
 import { createStore } from 'redux';
 
 
 const counterReducer = (state = 0, action) => {
-    console.log(action);
     switch (action.type) {
         case 'INCR':
             return state + 1;
         case 'DECR':
             return state - 1;
+        case 'ZERO':
+            return 0;
         default:
             return state;
     }
 }
 
+
 const store = createStore(counterReducer);
 
+const App = () => {
+    return (
+        <div>
+            <div>
+                Count: {store.getState()}
+            </div>
 
-console.log(store.getState());
+            <button
+                onClick={() => store.dispatch({type: 'INCR'})}
+            >plus</button>
+            <button
+                onClick={() => store.dispatch({ type: 'DECR' })}
+            >minus</button>
+            <button
+                onClick={() => store.dispatch({ type: 'ZERO' })}
+            >zero</button>
+        </div>
+    )
+}
 
-store.dispatch({
-    type: 'INCR'
-})
+const root = ReactDOM.createRoot(document.getElementById('root'));
 
-console.log(store.getState());
+const renderApp = () => {
+     root.render(<App />);
+}
 
-store.dispatch({
-    type: 'INCR'
-})
+renderApp();
 
-console.log(store.getState());
-
-store.dispatch({
-    type: 'DECR'
-})
-
-console.log(store.getState());
-
-ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+store.subscribe(renderApp);
