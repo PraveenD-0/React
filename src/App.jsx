@@ -1,26 +1,38 @@
-/*
-  useRef variable changes do not cause a re-render of the component.
-*/
+import axios from 'axios';
+import React from 'react';
 
-import React, { useRef, useState } from 'react';
+/*
+  axios: 
+    axios is a library that helps us to make http requests.
+    It returns a promise.
+    axios will internally use fetch api to make http requests.
+  
+  we can handle axios calls in two ways:
+    1. using async await -> asynchronous (but internally it is synchronous because of await keyword)
+    2. using then and catch -> synchronous
+  
+  synchronous: the statements are executed line by line.
+  asynchronous: the statements are not executed line by line or in the background one by one.
+
+  to install: npm install axios
+*/
 
 function App() {
 
-  const renderCount = useRef(0);
-  const [count, setCount] = useState(0);
-
-  // console.log(renderCount);
-
-  const increment = () => {
-    renderCount.current++;
-    setCount(count + 1);
+  const fetchPosts = async () => {
+    try {
+      console.log('fetching posts...');
+      const response = await axios.get('https://jsonplaceholder.typicode.com/post');
+      console.log(response.data);
+    } catch (error) {
+      console.log('error fetching posts...', error);
+    }
   }
 
   return (
     <div>
-      <p>Render count: { renderCount.current }</p>
-      <button onClick={ increment }>Increment</button>
-      </div>
+      <button onClick={fetchPosts}>Fetch Posts</button>
+    </div>
   )
 }
 
